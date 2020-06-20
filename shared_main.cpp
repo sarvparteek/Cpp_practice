@@ -3,7 +3,7 @@
 
 int main()
 {
-    basics_test();
-    access_specifier_test();
+    inheritance::basics::test();
+    inheritance::access_specifiers::test();
     return 0;
 }

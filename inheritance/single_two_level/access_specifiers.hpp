@@ -1,5 +1,5 @@
 /*!
- * @brief: Describes effect of access specifiers during inheritance
+ * @brief: Describes the effect of access specifiers during inheritance
  * @author: Sarv Parteek Singh
  * @date: June-20-2020
  * @note: Adapted from https://www.learncpp.com/cpp-tutorial/115-inheritance-and-access-specifiers/
@@ -16,6 +16,10 @@
 
 #include <iostream>
 
+namespace inheritance
+{
+namespace access_specifiers
+{
 class Parent
 {
 public:
@@ -148,7 +152,7 @@ private:
     int m_private_grandchild3;
 };
 
-int access_specifier_test()
+int test()
 {
     std::cout << "\nRunning " << __PRETTY_FUNCTION__ << std::endl;
 
@@ -169,7 +173,7 @@ int access_specifier_test()
     std::cout << "Child1's public from parent:" << c1.m_public_parent << std::endl;
     // Cannot access c1's protected (which includes Parent's protected) and private. Note that Child1 can access
     // Parent's protected (as they are its own protected now), but c1 cannot.
-    
+
     /* Grandchild1: publicly inherited from Child1 */
     std::cout << "Grandchild1's public: "             << gc1.m_public_grandchild1 << std::endl;
     std::cout << "Grandchild1's public from Child1: " << gc1.m_public_child1      << std::endl;
@@ -203,3 +207,5 @@ int access_specifier_test()
 
     return 0;
 }
+} // access_specifiers
+} // inheritance
