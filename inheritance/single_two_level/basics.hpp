@@ -1,3 +1,9 @@
+/*!
+ * @brief: Describes orders of constructor and destructor call, and access of methods in single inheritance
+ * @author: Sarv Parteek Singh
+ * @date: June-19-2020
+ */
+
 #include <iostream>
 #include <memory> // for unique_ptr
 
@@ -70,9 +76,9 @@ public:
 protected:
     void decrement()
     {
-        "Invoking child decrement";
+        std::cout << "Invoking child decrement" << std::endl;
         m_var_parent -= 2;
-        m_var_child -= 2;
+        m_var_child  -= 2;
     }
 
     int m_var_child;
@@ -93,9 +99,9 @@ public:
     void increment(int num) override
     {
         std::cout << "Invoking grandchild increment type 1" << std::endl;
-        m_var_parent  += 3*num;
-        m_var_child += 3*num;
-        m_var_grandchild = 3*num;
+        m_var_parent     += 3*num;
+        m_var_child      += 3*num;
+        m_var_grandchild += 3*num;
     }
 
 protected:
@@ -110,14 +116,15 @@ protected:
     int m_var_grandchild;
 };
 
-int main()
+int basics_test()
 {
+    std::cout << "\nRunning " << __PRETTY_FUNCTION__ << std::endl;
     std::cout << "-------Analyzing parent-------" << std::endl;
     {
         parent p(2);
         p.increment(3);
         p.increment();
-        // p.decrement(); // cannot call private method
+        // p.decrement(); // cannot call protected method
     }
 
     /* The following is not possible, as we cannot convert from base class pointer to derived class pointer */
@@ -136,7 +143,8 @@ int main()
         child c(3,5);
         c.increment(4); // will invoke method in child
         c.increment(); // will invoke method in child
-        // c.decrement(); // cannot call protected method
+        // c.decrement(); // cannot call protected method (decrement is still protected in child, as protected methods
+                          // stay protected when derived class inherits the base class publicly
     }
 
     /* Order of constructor invocation: parent->child
@@ -187,6 +195,8 @@ int main()
         g->increment(6);
         g->increment();
     }
+
+    return 0;
 }
 
 

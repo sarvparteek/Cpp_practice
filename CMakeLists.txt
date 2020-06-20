@@ -3,4 +3,4 @@ project(Cpp_practice)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(inheritance inheritance.cpp)
+add_executable(shared_main shared_main.cpp)
