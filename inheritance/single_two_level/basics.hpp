@@ -20,7 +20,7 @@ class Parent
         std::cout << "Parent constructor" << std::endl;
     }
 
-    ~Parent()
+    virtual ~Parent()
     {
         std::cout << "Parent destructor" << std::endl;
     }
@@ -65,7 +65,7 @@ public:
         std::cout << "Child constructor" << std::endl;
     }
 
-    ~Child()
+    virtual ~Child()
     {
         std::cout << "Child destructor" << std::endl;
     }
@@ -134,6 +134,20 @@ void add_five(std::unique_ptr<Parent> p)
     p->increment(5);
 }
 
+/*!
+ * @details: This function demonstrates the following:
+ * 1. A pointer to a base class can be used to point to an object of the derived (or derived of derived) class, but not
+ *    vice versa. This is true for both raw and smart pointers (obviously, since the latter is just a 'safer' version of
+ *    the former).
+ * 2. In an object of derived_second_level class,
+ *    The order of construction is always: base,derived_first_level, derived_second_level
+ *    The order of destruction is always: derived_second_level, derived_first_level, base
+ * 3. For 2 to be valid, destructors in every class that has a virtual function (i.e. from which inheritance is occuring)
+ *    should be virtual. If this is not the case, the results are quite different. Experiment with that and see the
+ *    output. Also, see C++ programming fundamentals (4th edition) by Stroustrup, Section 17.2.5
+ *
+ * @return none
+ */
 int test()
 {
     std::cout << "\nRunning " << __PRETTY_FUNCTION__ << std::endl;
