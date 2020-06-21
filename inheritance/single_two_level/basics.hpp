@@ -157,6 +157,31 @@ int test()
     //{
     //    std::unique_ptr<Child> p(new Parent(2));
     //}
+    /* However, the following is allowed */
+    { /*
+        Parent *p_ptr_to_p = new Parent(1);
+        Parent *p_ptr_to_c = new Child(2, 6);
+//        Child *c_ptr_to_p = new Parent(1); // a Child* cannot point to a Parent object
+        Child *c_ptr_to_p_to_c = static_cast<Child *>(p_ptr_to_c); // a Child* can
+        Child *c_ptr_to_p_to_p = static_cast<Child *>(p_ptr_to_p);
+
+        delete p_ptr_to_p;
+        delete p_ptr_to_c;
+        delete c_ptr_to_p_to_c;
+        delete c_ptr_to_p_to_p;
+*/ // TODO - SPS - Investigate "terminate called recursively" in subsequent statement when this commented block is
+   // executed.
+//        std::unique_ptr<Parent> p_uptr_to_p(new Parent(1)); // not as safe as the following usage of unique_ptr
+                                                              //(see https://shaharmike.com/cpp/unique-ptr/)
+                                                   // https://herbsutter.com/2013/05/29/gotw-89-solution-smart-pointers/
+        std::unique_ptr<Parent> p_uptr_to_p = std::make_unique<Parent>(4);
+        std::unique_ptr<Parent> p_uptr_to_c = std::make_unique<Child>(2,6);
+//        std::unique_ptr<Child>  c_uptr_to_p  = std::make_unique<Parent>(Parent(1)); // not allowed
+        /* The following two statements are not allowed until a new constructor of the type
+         * Child(std::unique_ptr<Parent>) is created */
+//        std::unique_ptr<Child> c_uptr_to_p_to_c = std::make_unique<Child>(std::move(p_uptr_to_c)); // not allowed
+//        std::unique_ptr<Child> c_uptr_to_p_to_p = std::make_unique<Child>(std::move(p_uptr_to_p));
+    }
 
     /* Order of constructor invocation: Parent->child
      * Order of destruction invocation: Child->parent
@@ -182,12 +207,12 @@ int test()
      * */
     std::cout << "-------Analyzing Child of type Parent-------" << std::endl;
     {
-        std::unique_ptr<Parent> c_ptr(new Child(3, 5));
-        c_ptr->increment(4); // will invoke method in Child
-        c_ptr->increment(); // will invoke method in Parent
-        c_ptr->absolute(); // will invoke method in Parent
-        // c->decrement(); // cannot call protected method
-        add_five(std::move(c_ptr));
+        std::unique_ptr<Parent> p_ptr(new Child(3, 5));
+        p_ptr->increment(4); // will invoke method in Child
+        p_ptr->increment(); // will invoke method in Parent
+        p_ptr->absolute(); // will invoke method in Parent
+        // p_ptr->decrement(); // cannot call protected method
+        add_five(std::move(p_ptr));
     }
 
     /* Order of constructor invocation: Parent->child->Grandchild
@@ -212,11 +237,11 @@ int test()
      * */
     std::cout << "--------Analyzing Grandchild of type Child-------" << std::endl;
     {
-        std::unique_ptr<Child> gc_ptr(new Grandchild(1, 2, 3));
-        gc_ptr->increment(6); // will invoke method in Grandchild
-        gc_ptr->increment(); // will invoke method in Child
-        gc_ptr->absolute(); // will invoke method in Parent
-        add_five(std::move(gc_ptr));
+        std::unique_ptr<Child> c_ptr(new Grandchild(1, 2, 3));
+        c_ptr->increment(6); // will invoke method in Grandchild
+        c_ptr->increment(); // will invoke method in Child
+        c_ptr->absolute(); // will invoke method in Parent
+        add_five(std::move(c_ptr));
     }
 
     /* Order of constructor invocation: Parent->child->Grandchild
@@ -226,11 +251,11 @@ int test()
      * */
     std::cout << "--------Analyzing Grandchild of type Parent-------" << std::endl;
     {
-        std::unique_ptr<Parent> gc_ptr(new Grandchild(1, 2, 3));
-        gc_ptr->increment(6); // will invoke method in Grandchild
-        gc_ptr->increment(); // will invoke method in Parent
-        gc_ptr->absolute(); // will invoke method in Parent
-        add_five(std::move(gc_ptr));
+        std::unique_ptr<Parent> p_ptr(new Grandchild(1, 2, 3));
+        p_ptr->increment(6); // will invoke method in Grandchild
+        p_ptr->increment(); // will invoke method in Parent
+        p_ptr->absolute(); // will invoke method in Parent
+        add_five(std::move(p_ptr));
     }
 
     return 0;
