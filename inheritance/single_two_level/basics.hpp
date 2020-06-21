@@ -166,13 +166,13 @@ int test()
                                     // See https://herbsutter.com/2013/06/05/gotw-91-solution-smart-pointer-parameters/
     }
 
-    /* The following is not possible, as we cannot convert from base class pointer to derived class pointer */
-    //std::cout << "-------Analyzing Parent of type Child-------" << std::endl;
-    //{
-    //    std::unique_ptr<Child> p(new Parent(2));
-    //}
-    /* However, the following is allowed */
-    { /*
+
+    std::cout << "-------Analyzing Parent-Child pointer conversions-------" << std::endl;
+    {
+        /* The following is not possible, as we cannot convert from base class pointer to derived class pointer */
+//        std::unique_ptr<Child> p(new Parent(2));
+        /* However, the following is allowed */
+        /*
         Parent *p_ptr_to_p = new Parent(1);
         Parent *p_ptr_to_c = new Child(2, 6);
 //        Child *c_ptr_to_p = new Parent(1); // a Child* cannot point to a Parent object
@@ -193,7 +193,7 @@ int test()
 //        std::unique_ptr<Child>  c_uptr_to_p  = std::make_unique<Parent>(Parent(1)); // not allowed
         /* The following two statements are not allowed until a new constructor of the type
          * Child(std::unique_ptr<Parent>) is created */
-//        std::unique_ptr<Child> c_uptr_to_p_to_c = std::make_unique<Child>(std::move(p_uptr_to_c)); // not allowed
+//        std::unique_ptr<Child> c_uptr_to_p_to_c = std::make_unique<Child>(std::move(p_uptr_to_c));
 //        std::unique_ptr<Child> c_uptr_to_p_to_p = std::make_unique<Child>(std::move(p_uptr_to_p));
     }
 
@@ -209,7 +209,7 @@ int test()
         c.increment(); // will invoke method in Child
         c.absolute();  // will invoke method in Parent
         // c.decrement(); // cannot call protected method (decrement is still protected in Child, as protected methods
-                          // stay protected when derived class inherits the base class publicly
+                          // stay protected when derived class inherits the base class publicly)
         auto c_ptr = std::make_unique<Child>(c);
         add_five(std::move(c_ptr));
     }
