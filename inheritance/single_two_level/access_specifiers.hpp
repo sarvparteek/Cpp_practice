@@ -14,6 +14,9 @@
  *     |------------------|-----------------------|-----------------------|-----------------------|
  */
 
+#ifndef CPP_PRACTICE_INHERITANCE_SINGLE_TWO_LEVEL_ACCESS_SPECIFIERS_HPP
+#define CPP_PRACTICE_INHERITANCE_SINGLE_TWO_LEVEL_ACCESS_SPECIFIERS_HPP
+
 #include <iostream>
 
 namespace inheritance
@@ -209,3 +212,5 @@ int test()
 }
 } // access_specifiers
 } // inheritance
+
+#endif // CPP_PRACTICE_INHERITANCE_SINGLE_TWO_LEVEL_ACCESS_SPECIFIERS_HPP

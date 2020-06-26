@@ -4,6 +4,9 @@
  * @date: June-19-2020
  */
 
+#ifndef CPP_PRACTICE_INHERITANCE_SINGLE_TWO_LEVEL_BASICS
+#define CPP_PRACTICE_INHERITANCE_SINGLE_TWO_LEVEL_BASICS
+
 #include <iostream>
 #include <memory> // for unique_ptr
 #include <cmath> // for abs
@@ -65,7 +68,7 @@ public:
         std::cout << "Child constructor" << std::endl;
     }
 
-    virtual ~Child()
+    ~Child() // virtual by default, as it overrides ~Parent()
     {
         std::cout << "Child destructor" << std::endl;
     }
@@ -139,10 +142,14 @@ void add_five(std::unique_ptr<Parent> p)
  * 1. A pointer to a base class can be used to point to an object of the derived (or derived of derived) class, but not
  *    vice versa. This is true for both raw and smart pointers (obviously, since the latter is just a 'safer' version of
  *    the former).
- * 2. In an object of derived_second_level class,
+ * 2. When a pointer to base class is used to point to an object of the derived class, a call to this pointer's method,
+ *    which is virtual in base class and overriden in derived class, invokes the method in the derived class. However, a
+ *    call to a method which is present in both base and derived class, but not linked via the virtual-override
+ *    mechanism, invokes the method in the base class.
+ * 3. In an object of derived_second_level class,
  *    The order of construction is always: base,derived_first_level, derived_second_level
  *    The order of destruction is always: derived_second_level, derived_first_level, base
- * 3. For 2 to be valid, destructors in every class that has a virtual function (i.e. from which inheritance is occuring)
+ * 4. For 2 to be valid, destructors in every class that has a virtual function (i.e. from which inheritance is occuring)
  *    should be virtual. If this is not the case, the results are quite different. Experiment with that and see the
  *    output. Also, see C++ programming fundamentals (4th edition) by Stroustrup, Section 17.2.5
  *
@@ -164,7 +171,9 @@ int test()
                                     // https://stackoverflow.com/questions/17473900/unique-ptr-to-a-derived-class-as-an-argument-to-a-function-that-takes-a-unique-p
                                     // add_five is a "sink" function.
                                     // See https://herbsutter.com/2013/06/05/gotw-91-solution-smart-pointer-parameters/
-    }
+                              // calls Parent destructor to destroy p_ptr
+        std::cout << "Addition of 5 done" << std::endl;
+    } // Parent destructor called to destroy p
 
 
     std::cout << "-------Analyzing Parent-Child pointer conversions-------" << std::endl;
@@ -211,8 +220,9 @@ int test()
         // c.decrement(); // cannot call protected method (decrement is still protected in Child, as protected methods
                           // stay protected when derived class inherits the base class publicly)
         auto c_ptr = std::make_unique<Child>(c);
-        add_five(std::move(c_ptr));
-    }
+        add_five(std::move(c_ptr)); // calls Child Destructor, Parent destructor to destroy c_ptr
+        std::cout << "Addition of 5 done" << std::endl;
+    } // Child destructor, Parent destructor called to destroy c
 
     /* Order of constructor invocation: Parent->child
      * Order of destruction invocation: Parent (child destructor is not called)
@@ -226,7 +236,8 @@ int test()
         p_ptr->increment(); // will invoke method in Parent
         p_ptr->absolute(); // will invoke method in Parent
         // p_ptr->decrement(); // cannot call protected method
-        add_five(std::move(p_ptr));
+        add_five(std::move(p_ptr)); // calls Child destructor, Parent destructor to destroy p_ptr
+        std::cout << "Addition of 5 done" << std::endl;
     }
 
     /* Order of constructor invocation: Parent->child->Grandchild
@@ -241,8 +252,9 @@ int test()
         gc.absolute(); // will invoke method in Parent
         // gc.decrement(); // cannot call protected method
         auto gc_ptr = std::make_unique<Grandchild>(gc);
-        add_five(std::move(gc_ptr));
-    }
+        add_five(std::move(gc_ptr)); // calls Grandchild destructor, Child destructor, Parent destructor to destroy gc_ptr
+        std::cout << "Addition of 5 done" << std::endl;
+    } // Grandchild destructor, Child destructor, Parent destructor called to destroy gc
 
     /* Order of constructor invocation: Parent->child->Grandchild
      * Order of destruction invocation: Child->parent (Grandchild destructor is not called)
@@ -255,7 +267,8 @@ int test()
         c_ptr->increment(6); // will invoke method in Grandchild
         c_ptr->increment(); // will invoke method in Child
         c_ptr->absolute(); // will invoke method in Parent
-        add_five(std::move(c_ptr));
+        add_five(std::move(c_ptr)); // calls Grandchild destructor, Child destructor, Parent destructor to destroy c_ptr
+        std::cout << "Addition of 5 done" << std::endl;
     }
 
     /* Order of constructor invocation: Parent->child->Grandchild
@@ -269,7 +282,8 @@ int test()
         p_ptr->increment(6); // will invoke method in Grandchild
         p_ptr->increment(); // will invoke method in Parent
         p_ptr->absolute(); // will invoke method in Parent
-        add_five(std::move(p_ptr));
+        add_five(std::move(p_ptr)); // calls Grandchild destructor, Child destructor, Parent destructor to destroy p_ptr
+        std::cout << "Addition of 5 done" << std::endl;
     }
 
     return 0;
@@ -277,3 +291,5 @@ int test()
 
 } // basics
 } // inheritance
+
+#endif // CPP_PRACTICE_INHERITANCE_SINGLE_TWO_LEVEL_BASICS
