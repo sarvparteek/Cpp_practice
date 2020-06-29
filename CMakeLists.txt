@@ -3,4 +3,5 @@ project(Cpp_practice)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(shared_main shared_main.cpp)
+add_subdirectory(src)
+add_subdirectory(test)
