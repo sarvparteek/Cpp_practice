@@ -64,7 +64,7 @@ namespace smart_pointers
             *m_ref_count -= 1;
             if (*m_ref_count == 0)
             {
-                delete m_var;
+                delete m_var; // assuming that this variable pointed to dynamically allocated memory
             }
         }
 
@@ -87,7 +87,7 @@ namespace smart_pointers
         }
     };
 
-// TODO: Move to test/ and employ a GTEST framework
+// TODO: 2020-06-28: Move to test/ and employ a GTEST framework
 
     void testSharedPtr()
     {
@@ -104,11 +104,13 @@ namespace smart_pointers
             assert(x.getCount() == 1);
 
             {
-                SharedPointer<int> z = std::move(x);
-                SharedPointer<int> a = z;
-                assert(x.getCount() == z.getCount());
-                assert(x.getCount() == a.getCount());
-                assert(x.getCount() == 3);
+                SharedPointer<int> z1 = std::move(x);
+                SharedPointer<int> z2 = z1;
+                SharedPointer<int> z3(std::move(z2));
+                assert(x.getCount() == z1.getCount());
+                assert(x.getCount() == z2.getCount());
+                assert(x.getCount() == z3.getCount());
+                assert(x.getCount() == 4);
             }
             assert(x.getCount() == 1);
         }
