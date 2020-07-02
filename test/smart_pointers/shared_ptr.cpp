@@ -4,6 +4,6 @@
  * @date: June-28-2020
  */
 
-#include "../../include/smart_pointers/shared_ptr.hpp"
+#include "smart_pointers/test.hpp"
 
 

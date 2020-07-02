@@ -1,8 +1,8 @@
-#include "../include/inheritance/single_two_level/access_specifiers.hpp"
-#include "../include/inheritance/single_two_level/basics.hpp"
-#include "../include/stl/vector_iteration.hpp"
-#include "../include/stl/two_sum.hpp"
-#include "../include/smart_pointers/shared_ptr.hpp"
+#include "inheritance/single_two_level/access_specifiers.hpp"
+#include "inheritance/single_two_level/basics.hpp"
+#include "stl/vector_iteration.hpp"
+#include "stl/two_sum.hpp"
+#include "smart_pointers/test.hpp"
 
 int main(int argc, char* argv[])
 {
