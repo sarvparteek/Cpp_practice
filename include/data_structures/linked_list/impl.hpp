@@ -4,8 +4,8 @@
  * @date July-04-2020
  */
 
-#ifndef CPP_PRACTICE_LINKED_LIST_HPP
-#define CPP_PRACTICE_LINKED_LIST_HPP
+#ifndef CPP_PRACTICE_IMPL_HPP
+#define CPP_PRACTICE_IMPL_HPP
 
 #include <iostream>
 #include <memory> // for shared_ptr
@@ -13,17 +13,19 @@
 #include <string>
 namespace data_structures
 {
+namespace linked_list
+{
     template <typename T>
     struct ListNode
     {
         T data;
         std::shared_ptr<ListNode<T>> next; // pointer could be shared because multiple nodes can point to a data element,
-                                           // For instance, 1->2->3->4->5->6
-                                           //                  ^           |
-                                           //                  |------<----|
-                                           // Source: Ch 7, Linked Lists, Elements of Programming Interviews
-                                           // This is not recommended in general though:
-       // https://www.quora.com/Should-I-use-a-shared_ptr-or-raw-pointer-when-designing-the-node-class-of-a-linked-list-or-BST-in-C++
+        // For instance, 1->2->3->4->5->6
+        //                  ^           |
+        //                  |------<----|
+        // Source: Ch 7, Linked Lists, Elements of Programming Interviews
+        // This is not recommended in general though:
+        // https://www.quora.com/Should-I-use-a-shared_ptr-or-raw-pointer-when-designing-the-node-class-of-a-linked-list-or-BST-in-C++
 
         ListNode(T const &in_data): data(in_data), next(nullptr)
         {}
@@ -110,9 +112,9 @@ namespace data_structures
             right  = right->next;
         }
     }
-    
+
     // TODO: Move function definitions to src, tests to src/ with GTEST framework
-    
+
     void testIntList()
     {
         std::cout << std::endl << __PRETTY_FUNCTION__ << std::endl ;
@@ -147,15 +149,15 @@ namespace data_structures
         std::cout << "Searching for node with data 4" << std::endl;
         auto node = findNode(head, 4);
         std::cout << "Found node " << std::string(node == nullptr?
-                                                            "is NULL"
-                                                            : "has value: " + std::to_string(node->data))
-                                   << std::endl;
+                                                  "is NULL"
+                                                                 : "has value: " + std::to_string(node->data))
+                  << std::endl;
         std::cout << "Searching for node with data -1 " << std::endl;
         node = findNode(head, -1);
         std::cout << "Found node " << std::string(node == nullptr?
-                                                             "is NULL"
-                                                             : "has value: " + std::to_string(node->data))
-                                    << std::endl;
+                                                  "is NULL"
+                                                                 : "has value: " + std::to_string(node->data))
+                  << std::endl;
 
         /* Test reverse() */
         std::cout << "Reversing list" << std::endl;
@@ -163,5 +165,6 @@ namespace data_structures
         std::cout << "New list: ";
         printList<int>(head);
     }
-}
-#endif //CPP_PRACTICE_LINKED_LIST_HPP
+} // linked_list
+} // data_structures
+#endif //CPP_PRACTICE_IMPL_HPP

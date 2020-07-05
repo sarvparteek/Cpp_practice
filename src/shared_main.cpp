@@ -4,7 +4,8 @@
 #include "algorithms/two_sum.hpp"
 #include "smart_pointers/shared_pointer.hpp"
 #include "threading/basics.hpp"
-#include "data_structures/linked_list.hpp"
+#include "data_structures/linked_list/impl.hpp"
+#include "data_structures/linked_list/reversed_list_sum.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -21,8 +22,8 @@ int main(int argc, char* argv[])
     std::cout << "Algo2:" << s2[0] << ", " << s2[1] << std::endl;
 
     smart_pointers::testSharedPtr();
-    data_structures::testIntList();
-
+    data_structures::linked_list::testIntList();
+    data_structures::linked_list::testReverseListSum();
 
     return 0;
 }
