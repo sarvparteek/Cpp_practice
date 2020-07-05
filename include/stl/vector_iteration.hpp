@@ -32,5 +32,7 @@ namespace stl
             std::cout << vec.at(i) << std::endl; // vec.at(i) is safer than vec[i] as the latter does not check for
                                                  // out -of-range.
         }
+
+        return 0;
     }
 }

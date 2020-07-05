@@ -1,8 +1,10 @@
 #include "inheritance/single_two_level/access_specifiers.hpp"
 #include "inheritance/single_two_level/basics.hpp"
 #include "stl/vector_iteration.hpp"
-#include "stl/two_sum.hpp"
-#include "smart_pointers/test.hpp"
+#include "algorithms/two_sum.hpp"
+#include "smart_pointers/shared_pointer.hpp"
+#include "threading/basics.hpp"
+#include "data_structures/linked_list.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -19,6 +21,8 @@ int main(int argc, char* argv[])
     std::cout << "Algo2:" << s2[0] << ", " << s2[1] << std::endl;
 
     smart_pointers::testSharedPtr();
+    data_structures::testIntList();
+
 
     return 0;
 }
