@@ -2,6 +2,7 @@
 #include "inheritance/single_two_level/basics.hpp"
 #include "stl/vector_iteration.hpp"
 #include "algorithms/two_sum.hpp"
+#include "algorithms/anagram.hpp"
 #include "smart_pointers/shared_pointer.hpp"
 #include "threading/basics.hpp"
 #include "data_structures/linked_list/impl.hpp"
@@ -24,6 +25,7 @@ int main(int argc, char* argv[])
     smart_pointers::testSharedPtr();
     data_structures::linked_list::testIntList();
     data_structures::linked_list::testReverseListSum();
+   algorithms::testAnagrams();
 
     return 0;
 }

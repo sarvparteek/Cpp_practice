@@ -11,6 +11,17 @@
 
 namespace stl
 {
+    template <typename T>
+    void printVector(std::vector<T> const &vec)
+    {
+        std::size_t i = 0;
+        for (i = 0; i < vec.size() - 1; ++i)
+        {
+            std::cout << vec.at(i) << ", ";
+        }
+        std::cout << vec.at(i) << std::endl;
+    }
+
     int vec_iteration_test()
     {
         std::cout << "--- Technique 1 ---" << std::endl;
