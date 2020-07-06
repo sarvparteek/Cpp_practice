@@ -1,5 +1,5 @@
 /*!
- * @brief: Detects the number of anagrams in a list of numbers
+ * @brief: Detects the number of anagrams in a list of positive numbers
  * @author: Sarv Parteek Singh
  * @date: July-06-2020
  */
