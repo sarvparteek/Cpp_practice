@@ -48,10 +48,10 @@ namespace linked_list
     {
         auto node = head;
         while (node->next != nullptr)
-    {
-        std::cout << node->val << "->";
-        node = node->next;
-    }
+        {
+            std::cout << node->val << "->";
+            node = node->next;
+        }
         std::cout << node->val << std::endl;
     }
 
@@ -60,64 +60,79 @@ namespace linked_list
     public:
         ListNodeRawInt* addTwoNumbers(ListNodeRawInt* l1, ListNodeRawInt* l2)
         {
-            int total_sum  = 0;
-            int multiplier = 1;
-            int carry      = 0;
-            auto list1     = l1;
-            auto list2     = l2;
-            while (list1 != nullptr)
-            {
-                auto step_sum       = list1->val + list2->val;
-                auto previous_carry = carry;
-                if (step_sum > 9)
-                {
-                    carry    = 1;
-                    step_sum = step_sum - 10;
-                }
-                else
-                {
-                    carry = 0;
-                }
-                total_sum  += (step_sum + previous_carry) * multiplier;
-                multiplier *= 10;
-                list1 = list1->next;
-                list2 = list2->next;
-            }
-
-            std::cout << "List 1: ";
-            printList(l1);
-            std::cout << "List 2: ";
-            printList(l2);
-            std::cout << "Numbers sum to " << total_sum << std::endl;
-            multiplier /= 10; // to accomodate for the last extra multiplication before exiting while loop
+            int carry       = 0;
+            auto list1      = l1;
+            auto list2      = l2;
             auto l_sum_head = new ListNodeRawInt(); // adds a 0 element in the front (can be handled later)
 
-            while (multiplier >= 1)
+            while (!(list1 == nullptr && list2 == nullptr))
             {
-                auto quotient = total_sum/multiplier;
-                pushBack(l_sum_head, quotient);
-                total_sum -= quotient * multiplier;
-                multiplier   /= 10;
+
+                auto sum_info = getSingleDigitSum(list1 == nullptr? 0 :list1->val,
+                                                  list2 == nullptr? 0: list2->val,
+                                                  carry);
+                auto digit    = sum_info.first;
+                carry         = sum_info.second;
+                pushBack(l_sum_head, digit);
+                list1  = (list1 == nullptr? nullptr : list1->next);
+                list2  = (list2 == nullptr? nullptr : list2->next);
+            }
+
+            if (carry)
+            {
+                pushBack(l_sum_head, carry);
             }
 
             return l_sum_head->next;
         }
+
+    private:
+        std::pair<int, int> getSingleDigitSum(int const &num1, int const &num2, int const &previous_carry)
+        {
+            int sum   = num1 + num2 + previous_carry;
+            int carry = 0;
+            if (sum > 9)
+            {
+                sum  -= 10;
+                carry = 1; // sum of two digits cannot exceed 18 => max carry = 1
+            }
+            return std::make_pair(sum, carry);
+        }
     };
 
-    void testReverseListSum()
+    void testSingleSet(std::vector<int> const &vec1, std::vector<int> const &vec2)
     {
-        auto head1 = new ListNodeRawInt(2);
-        pushBack(head1, 4);
-        pushBack(head1, 3);
-        auto head2 = new ListNodeRawInt(5);
-        pushBack(head2, 6);
-        pushBack(head2, 4);
+        auto head1 = new ListNodeRawInt(vec1.at(0));
+        for (std::size_t i = 1; i < vec1.size(); ++i)
+        {
+            pushBack(head1, vec1.at(i));
+        }
+
+        auto head2 = new ListNodeRawInt(vec2.at(0));
+        for (std::size_t i = 1; i < vec2.size(); ++i)
+        {
+            pushBack(head2, vec2.at(i));
+        }
+
         ReverseListSum rls;
         auto sum_head = rls.addTwoNumbers(head1, head2);
+        std::cout << "List 1: ";
+        printList(head1);
+        std::cout << "List 2: ";
+        printList(head2);
         std::cout << "Summed list: ";
         printList(sum_head);
     }
-}
-}
+
+    void testReverseListSum()
+    {
+        std::cout << std::endl << __PRETTY_FUNCTION__ << std::endl;
+        testSingleSet(std::vector<int> {2,4,3}, std::vector<int> {5,6,4});
+        testSingleSet(std::vector<int> {0}, std::vector<int> {1,8});
+        testSingleSet(std::vector<int> {1}, std::vector<int> {9,9});
+    }
+
+} // linked_list
+} // data_structures
 
 #endif //CPP_PRACTICE_REVERSED_LIST_SUM_HPP
