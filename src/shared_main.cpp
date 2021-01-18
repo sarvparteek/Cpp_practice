@@ -4,6 +4,7 @@
 #include "algorithms/two_sum.hpp"
 #include "algorithms/anagram.hpp"
 #include "algorithms/lisp.hpp"
+#include "algorithms/longest_substring.hpp"
 #include "smart_pointers/shared_pointer.hpp"
 #include "threading/basics.hpp"
 #include "data_structures/linked_list/impl.hpp"
@@ -28,6 +29,7 @@ int main(int argc, char* argv[])
     data_structures::linked_list::testReverseListSum();
     algorithms::testAnagrams();
     algorithms::testLisp();
+    algorithms::testLongestSubstring();
 
     return 0;
 }
