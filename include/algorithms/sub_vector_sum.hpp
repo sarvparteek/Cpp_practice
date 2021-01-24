@@ -106,8 +106,9 @@ namespace algorithms
 
     void testSubVectorSum()
     {
+        std::cout << std::endl;
         SubVectorSum<int> s(4, std::vector<int>({1, 4, 2, 10, 23, 3, 1, 0, 20}));
-        std::cout << "Largest sub-vector sum: " << s.getSum();
+        std::cout << "Largest sub-vector sum: " << s.getSum() << std::endl;
     }
 }
 

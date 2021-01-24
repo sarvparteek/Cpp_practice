@@ -10,6 +10,7 @@
 #include "data_structures/linked_list/impl.hpp"
 #include "data_structures/linked_list/reversed_list_sum.hpp"
 #include "algorithms/sub_vector_sum.hpp"
+#include "algorithms/matrix_spiral_output.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -32,6 +33,7 @@ int main(int argc, char* argv[])
     algorithms::testLisp();
     algorithms::testLongestSubstring();
     algorithms::testSubVectorSum();
+    algorithms::testMatrix2DSpiralPrint();
 
     return 0;
 }
